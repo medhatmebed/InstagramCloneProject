@@ -66,7 +66,7 @@ class UserAdapter (private var mContext: Context,
         })
 
         holder.followButton.setOnClickListener {
-            if(holder.followButton.text.toString() == "Follow")
+            if(holder.followButton.text.toString() == "Follow" && !user.getUID().equals(firebaseUser?.uid))//to prevent the user from following himself
             {
                 firebaseUser?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
@@ -76,6 +76,7 @@ class UserAdapter (private var mContext: Context,
                             if(task.isSuccessful)
                             {
                                 firebaseUser?.uid.let { it1 ->
+                                    println("the value of it is ${it1.toString()}") // Todo: Medhat remember to remove all the logs
                                     FirebaseDatabase.getInstance().reference
                                         .child("Follow").child(user.getUID())
                                         .child("Followers").child(it1.toString())
