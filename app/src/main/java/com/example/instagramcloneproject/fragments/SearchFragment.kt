@@ -25,7 +25,9 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 class SearchFragment : Fragment()
 {
     private var recyclerView: RecyclerView? = null
+
     private var userAdapter: UserAdapter? = null
+
     private var mUser: MutableList<User>? = null
 
 
@@ -33,11 +35,14 @@ class SearchFragment : Fragment()
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view_search)
+
         recyclerView?.setHasFixedSize(true)
+
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
         mUser = ArrayList()
