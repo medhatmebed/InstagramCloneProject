@@ -25,9 +25,7 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 class SearchFragment : Fragment()
 {
     private var recyclerView: RecyclerView? = null
-
     private var userAdapter: UserAdapter? = null
-
     private var mUser: MutableList<User>? = null
 
 
@@ -73,8 +71,6 @@ class SearchFragment : Fragment()
             {
             }
         })
-
-
         return view
     }
 

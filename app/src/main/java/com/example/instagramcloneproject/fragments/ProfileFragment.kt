@@ -70,10 +70,8 @@ class ProfileFragment : Fragment() {
         }
         else if(profileId != firebaseUser.uid)
         {
-
             checkFollowAndFollowingButtonStatus()
         }
-
 
         //recycler View for Uploaded Images
         var recyclerViewUploadImages: RecyclerView
