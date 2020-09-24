@@ -31,11 +31,13 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_notifications -> {
                 moveToFragment(NotificationsFragment())
+
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_profile -> {
                 moveToFragment(ProfileFragment())
                 return@OnNavigationItemSelectedListener true
+
             }
         }
 
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
 
