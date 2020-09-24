@@ -36,6 +36,7 @@ import kotlin.collections.ArrayList
 class ProfileFragment : Fragment() {
 
     private lateinit var profileId: String
+
     private lateinit var firebaseUser: FirebaseUser
 
     var postList: List<Post>? = null
@@ -50,6 +51,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_profile, container, false)
 
@@ -57,18 +59,19 @@ class ProfileFragment : Fragment() {
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         if(pref != null)
         {
+
             this.profileId = pref.getString("profileId", "none").toString()
         }
 
         if(profileId == firebaseUser.uid)
         {
+
             view.edit_account_settings_btn.text = "Edit Profile"
         }
         else if(profileId != firebaseUser.uid)
         {
             checkFollowAndFollowingButtonStatus()
         }
-
 
         //recycler View for Uploaded Images
         var recyclerViewUploadImages: RecyclerView
