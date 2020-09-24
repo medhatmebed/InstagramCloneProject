@@ -1,7 +1,9 @@
 package com.example.instagramcloneproject.fragments
 
 import com.example.instagramcloneproject.adapter.PostAdapter
+import com.example.instagramcloneproject.adapter.StoryAdapter
 import com.example.instagramcloneproject.model.Post
+import com.example.instagramcloneproject.model.Story
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +28,8 @@ class HomeFragment : Fragment()
     private  var postList: MutableList<Post>? = null
     private var followingList: MutableList<String>? = null
 
+    private var storyAdapter: StoryAdapter? = null
+    private var storyList: MutableList<Story>? = null
 
 
     override fun onCreateView(
@@ -50,6 +54,14 @@ class HomeFragment : Fragment()
         recyclerView.adapter = postAdapter
 
 
+        recyclerViewStory = view.findViewById(R.id.recycler_view_story)
+        recyclerView.setHasFixedSize(true)
+        val linearLayoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewStory.layoutManager = linearLayoutManager2
+
+        storyList = ArrayList()
+        storyAdapter = context?.let { StoryAdapter(it, storyList as ArrayList<Story>) }
+        recyclerViewStory.adapter = storyAdapter
 
 
         checkFollowings()
@@ -80,6 +92,7 @@ class HomeFragment : Fragment()
                     }
 
                     retrievePosts()
+                    retrieveStories()
                 }
 
 
@@ -123,6 +136,54 @@ class HomeFragment : Fragment()
 
             }
         })
+    }
+
+
+    private fun retrieveStories()
+    {
+        val storyRef = FirebaseDatabase.getInstance().reference.child("Story")
+
+        storyRef.addValueEventListener(object : ValueEventListener
+        {
+            override fun onDataChange(dataSnapshot: DataSnapshot)
+            {
+                val timeCurrent = System.currentTimeMillis()
+
+                (storyList as ArrayList<Story>).clear()
+
+                (storyList as ArrayList<Story>).add(Story("", 0, 0, "", FirebaseAuth.getInstance().currentUser!!.uid))
+
+                for (id in followingList!!)
+                {
+                    var countStory = 0
+
+                    var story: Story? = null
+
+                    for (snapshot in dataSnapshot.child(id).children)
+                    {
+                        story = snapshot.getValue(Story::class.java)
+
+                        if (timeCurrent>story!!.getTimeStart() && timeCurrent<story!!.getTimeEnd())
+                        {
+                            countStory++
+                        }
+                    }
+                    if (countStory>0)
+                    {
+                        (storyList as ArrayList<Story>).add(story!!)
+                    }
+                }
+                storyAdapter!!.notifyDataSetChanged()
+
+
+            }
+
+            override fun onCancelled(p0: DatabaseError)
+            {
+
+            }
+        })
+
     }
 
 }
